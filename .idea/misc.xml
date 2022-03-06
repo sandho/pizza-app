@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/sandh/AndroidStudioProjects/PizzaApp/app/src/main/res/layout/activity_main.xml" value="0.209375" />
+        <entry key="..\:/Users/sandh/AndroidStudioProjects/PizzaApp/app/src/main/res/drawable/ic_non_veg_icon.xml" value="0.1" />
+        <entry key="..\:/Users/sandh/AndroidStudioProjects/PizzaApp/app/src/main/res/drawable/ic_veg_icon.xml" value="0.1505" />
+        <entry key="..\:/Users/sandh/AndroidStudioProjects/PizzaApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/sandh/AndroidStudioProjects/PizzaApp/app/src/main/res/layout/fragment_customize_product_bottom_sheet.xml" value="0.209375" />
+        <entry key="..\:/Users/sandh/AndroidStudioProjects/PizzaApp/app/src/main/res/layout/product_crust_item_row.xml" value="0.209375" />
       </map>
     </option>
   </component>
