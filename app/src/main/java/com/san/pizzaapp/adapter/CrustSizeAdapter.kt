@@ -36,13 +36,13 @@ class CrustSizeAdapter(
                     isChanged = false
 
                     if (lastCheckedPosition >= 0) {
-                        notifyItemChanged(position)
+                        notifyDataSetChanged()
                     }
 
                     listener.crustSizeRecord(this)
 
                     lastCheckedPosition = position
-                    notifyItemChanged(position)
+                    notifyDataSetChanged()
                 }
             }
         }

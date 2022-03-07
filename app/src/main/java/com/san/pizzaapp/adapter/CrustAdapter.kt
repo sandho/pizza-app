@@ -30,13 +30,13 @@ class CrustAdapter(
 
                 binding.productCrustTxt.setOnClickListener {
                     if (lastCheckedPosition >= 0) {
-                        notifyItemChanged(position)
+                        notifyDataSetChanged()
                     }
 
                     listener.crustRecord(this)
 
                     lastCheckedPosition = position
-                    notifyItemChanged(position)
+                    notifyDataSetChanged()
                 }
             }
         }

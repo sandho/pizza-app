@@ -60,19 +60,31 @@ class CustomizeProductBottomSheet(var product: Product) : BottomSheetDialogFragm
         binding.addToCartBtn.setOnClickListener {
              // Toast.makeText(context, "${cartCrust?.name} - ${cartCrustSize?.name} - ${cartProduct?.name}", Toast.LENGTH_SHORT).show()
 
-            Log.d(TAG, "onCreateView: product cart - $cartList")
+            var crustExist = 0
+            var crustSizeExist = 0
+            if (cartList.isNotEmpty()) {
+                crustExist = cartDao.selectByCrustID(cartCrust!!.id).size
+                crustSizeExist = cartDao.selectByCrustSizeID(cartCrustSize!!.id).size
+            }
 
-            cartDao.addToCart(
-                ProductCart(
-                    productName = product.name,
-                    productCrustID = cartCrust!!.id,
-                    productCrustName = cartCrust!!.name,
-                    productCrustSizeID = cartCrustSize!!.id,
-                    productCrustSizeName = cartCrustSize!!.name,
-                    productPrice = cartCrustSize!!.price,
-                    productCartCount = "1"
-                )
-            )
+            when {
+                crustSizeExist >= 1 && crustExist >= 1 -> {
+                    Toast.makeText(context, "crust exists", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    cartDao.addToCart(
+                        ProductCart(
+                            productName = product.name,
+                            productCrustID = cartCrust!!.id,
+                            productCrustName = cartCrust!!.name,
+                            productCrustSizeID = cartCrustSize!!.id,
+                            productCrustSizeName = cartCrustSize!!.name,
+                            productPrice = cartCrustSize!!.price,
+                            productCartCount = "1"
+                        )
+                    )
+                }
+            }
 
         }
 
