@@ -7,8 +7,14 @@ import java.nio.charset.Charset
 
 class Utils {
 
+    companion object {
+        val RUPESS_SYMBOL = "₹"
+    }
 
+}
 
+fun String.setPriceWithRupeesSymbol(): String {
+    return "${Utils.RUPESS_SYMBOL}$this"
 }
 
 fun Context.getAssetsJSON(fileName: String?): String {

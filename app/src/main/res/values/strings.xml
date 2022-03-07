@@ -9,4 +9,16 @@
     <string name="add_to_cart">Add to Cart</string>
     <string name="choose_product_crust_size">Choose Product Crust Size</string>
     <string name="choose_product_crust">Choose Product Crust</string>
+    <string name="product_price">000</string>
+    <string name="product_list_title_txt">Featured</string>
+    <string name="veg_or_non_veg">Veg Or Non-Veg</string>
+    <string name="product_sub_total">000</string>
+    <string name="your_order">Your Order</string>
+    <string name="grand_total">Grand Total</string>
+    <string name="grand_total_amount">000</string>
+    <string name="count_txt">10</string>
+    <string name="increment">+</string>
+    <string name="decrement">-</string>
+    <string name="delete">Delete</string>
+    <string name="product_crust_name">Product Crust Name</string>
 </resources>

@@ -2,26 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
+    android:layout_marginTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
         android:id="@+id/productNameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product Name"
+        android:text="@string/product_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/productPriceTxt"
+        />
+
+    <TextView
+        android:id="@+id/productPriceTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/product_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/productNameTxt"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/productCrustNameTxt"
         />
 
     <TextView
         android:id="@+id/productCrustNameTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product Crust Name"
+        android:text="@string/product_crust_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productNameTxt"
-        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/productPriceTxt"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <Button
@@ -31,7 +48,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Delete"
+        android:text="@string/delete"
         android:visibility="gone"
         />
 
@@ -41,38 +58,39 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/productSubTotalTxt"
         >
 
         <Button
             android:id="@+id/decrementBtn"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="-"
+            android:text="@string/decrement"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/countTxt"
-            android:layout_marginRight="10dp"
             />
 
         <TextView
             android:id="@+id/countTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
+            android:text="@string/count_txt"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/incrementBtn"
             app:layout_constraintStart_toEndOf="@id/decrementBtn"
-            android:layout_marginRight="10dp"
+            android:layout_margin="5dp"
+            android:minWidth="25sp"
+            android:textAlignment="center"
             />
 
         <Button
             android:id="@+id/incrementBtn"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="+"
+            android:text="@string/increment"
             app:layout_constraintStart_toEndOf="@id/countTxt"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -80,5 +98,27 @@
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/productSubTotalTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/product_sub_total"
+        app:layout_constraintTop_toBottomOf="@id/adjustCountLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/adjustCountLayout"
+
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        app:layout_constraintTop_toBottomOf="@id/productSubTotalTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="10dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
