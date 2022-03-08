@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="18sp"
-            android:textColor="@color/black"
+            android:textColor="@color/purple_700"
             />
 
         <TextView

@@ -4,7 +4,6 @@
     <string name="product_name">Product Name</string>
     <string name="add">add</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="product_crust">Product Crust</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="choose_product_crust_size">Choose Product Crust Size</string>
@@ -25,4 +24,5 @@
     <string name="cart">Cart</string>
     <string name="home">Home</string>
     <string name="one">1</string>
+    <string name="no_products_available">No Products Available</string>
 </resources>

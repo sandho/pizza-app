@@ -23,26 +23,12 @@ class MainActivity : AppCompatActivity() {
     private val roomDbViewModel: RoomDbViewModel by viewModel()
     private var cartList: List<ProductCart> = ArrayList<ProductCart>()
 
-    private lateinit var cartDao: CartDao
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setFragment(HomeFragment(this)) // default fragment
-
-        /*roomDbViewModel.listAllCart()
-        roomDbViewModel.listCart.observe(this, Observer {
-            cartList = it
-        })*/
-
-        val db = Room.databaseBuilder(
-            this,
-            CartDatabase::class.java, Utils().DB_NAME
-        ).allowMainThreadQueries().build()
-
-        cartDao = db.cartDao()
 
         setBadge()
 
@@ -61,9 +47,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setBadge() {
-        binding.bottomNavigationView.getOrCreateBadge(R.id.cartMenu).number = cartDao.listAllCart().sumOf {
-            it.productCartCount.toInt()
-        }
+        roomDbViewModel.listAllCart()
+        roomDbViewModel.listCart.observe(this, Observer {
+            cartList = it
+
+            binding.bottomNavigationView.getOrCreateBadge(R.id.cartMenu).number = cartList.sumOf { productCartList ->
+                productCartList.productCartCount.toInt()
+            }
+        })
+
     }
 
     private fun setFragment(fragment: Fragment) {

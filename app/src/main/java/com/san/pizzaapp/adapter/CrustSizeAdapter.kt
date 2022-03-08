@@ -36,20 +36,28 @@ class CrustSizeAdapter(
                     binding.radioBtnCrust.isChecked = (pos == lastCheckedPosition)
                 }
 
+                binding.radioBtnCrust.setOnClickListener {
+                    showCrustSize(pos, this)
+                }
+
                 itemView.setOnClickListener {
-                    isChanged = false
-
-                    if (lastCheckedPosition >= 0) {
-                        notifyDataSetChanged()
-                    }
-
-                    listener.crustSizeRecord(this)
-
-                    lastCheckedPosition = pos
-                    notifyDataSetChanged()
+                    showCrustSize(pos, this)
                 }
             }
         }
+    }
+
+    private fun showCrustSize(pos: Int, crustSize: CrustSize) {
+        isChanged = false
+
+        if (lastCheckedPosition >= 0) {
+            notifyDataSetChanged()
+        }
+
+        listener.crustSizeRecord(crustSize)
+
+        lastCheckedPosition = pos
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

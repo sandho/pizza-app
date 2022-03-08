@@ -1,7 +1,6 @@
 package com.san.pizzaapp.utils
 
 import android.content.Context
-import android.net.ConnectivityManager
 import java.io.IOException
 import java.io.InputStream
 import java.nio.charset.Charset
@@ -13,6 +12,8 @@ class Utils {
     }
 
     val BASEURL = "https://android.free.beeceptor.com/"
+
+    // change false for access local json file, true for network call
     val NETWORK_CALL: Boolean = false
     val DB_NAME = "cart"
 }

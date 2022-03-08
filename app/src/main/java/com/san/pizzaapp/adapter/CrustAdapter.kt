@@ -36,20 +36,28 @@ class CrustAdapter(
                     binding.radioBtnCrust.isChecked = (pos == lastCheckedPosition)
                 }
 
+                binding.radioBtnCrust.setOnClickListener {
+                    showCrust(pos, this)
+                }
+
                 itemView.setOnClickListener {
-                    isChanged = false
-
-                    if (lastCheckedPosition >= 0) {
-                        notifyDataSetChanged()
-                    }
-
-                    listener.crustRecord(this)
-
-                    lastCheckedPosition = pos
-                    notifyDataSetChanged()
+                    showCrust(pos, this)
                 }
             }
         }
+    }
+
+    private fun showCrust(pos: Int, crust: Crust) {
+        isChanged = false
+
+        if (lastCheckedPosition >= 0) {
+            notifyDataSetChanged()
+        }
+
+        listener.crustRecord(crust)
+
+        lastCheckedPosition = pos
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.room.Room
 import com.google.gson.Gson
@@ -46,18 +47,28 @@ class HomeFragment(var mainActivity: MainActivity) : Fragment() {
             mainViewModel.pizzaList.observe(viewLifecycleOwner, Observer {
                 when (it) {
                     is Resource.Failure -> {
-
+                        binding.progressBar.visibility = View.GONE
+                        binding.productLayout.visibility = View.GONE
+                        binding.emptyProductTxt.visibility = View.VISIBLE
+                        Toast.makeText(context, "Load Failed...", Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Loading -> {
-
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                        binding.productLayout.visibility = View.VISIBLE
+                        binding.emptyProductTxt.visibility = View.GONE
+
                         product = it.value
                         setProductIntoView(product)
                     }
                 }
             })
         } else {
+            binding.productLayout.visibility = View.VISIBLE
+            binding.emptyProductTxt.visibility = View.GONE
+
             productAsString = requireActivity().getAssetsJSON("pizzas.json") // get json data, from local assets
             product = Gson().fromJson(productAsString, Product::class.java) // converting string into json using Gson
             setProductIntoView(product)
@@ -75,7 +86,7 @@ class HomeFragment(var mainActivity: MainActivity) : Fragment() {
 
     private fun setProductIntoView(product: Product?) {
         binding.productNameTxt.text = product!!.name
-        binding.productDescTxt.text = product!!.description
+        binding.productDescTxt.text = product.description
 
         if (product.isVeg) {
             binding.productIsVeg.setImageResource(R.drawable.ic_veg_icon)

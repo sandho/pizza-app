@@ -16,9 +16,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="20sp"
-        android:textColor="@color/black"
+        android:textColor="@color/purple_700"
         app:drawableStartCompat="@drawable/ic_baseline_shopping_cart_24"
-        app:drawableTint="@color/black"
+        app:drawableTint="@color/purple_700"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -55,8 +55,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/grand_total"
                 android:textSize="20sp"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/purple_700"                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/grandTotalTxt"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,8 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/grand_total_amount"
                 android:textSize="20sp"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@id/grandTotalTitleTxt"
+                android:textColor="@color/purple_700"                app:layout_constraintTop_toBottomOf="@id/grandTotalTitleTxt"
                 app:layout_constraintStart_toStartOf="@id/grandTotalTitleTxt"
                 app:layout_constraintEnd_toEndOf="@id/grandTotalTitleTxt"
                 app:layout_constraintBottom_toBottomOf="parent"
