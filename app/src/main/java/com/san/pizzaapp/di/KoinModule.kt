@@ -30,7 +30,7 @@ val roomDatabaseModule = module {
     fun roomDB(context: Context): CartDatabase {
         return Room.databaseBuilder(
             context,
-            CartDatabase::class.java, "cart"
+            CartDatabase::class.java, Utils().DB_NAME
         ).allowMainThreadQueries().build()
     }
 
@@ -72,7 +72,7 @@ val retrofitModule = module {
         return okHttpClientBuilder.build()
     }
 
-    fun provideRetrofit(factory: Gson, client: OkHttpClient): Retrofit {
+    fun provideRetrofit(factory: Gson): Retrofit {
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -93,5 +93,5 @@ val retrofitModule = module {
 
     single { provideGson() }
     single { provideHttpClient() }
-    single { provideRetrofit(get(), get()) }
+    single { provideRetrofit(get()) }
 }

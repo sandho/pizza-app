@@ -1,9 +1,7 @@
 package com.san.pizzaapp.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.san.pizzaapp.databinding.ProductCrustItemRowBinding
 import com.san.pizzaapp.model.Crust
@@ -24,14 +22,18 @@ class CrustAdapter(
     }
 
     override fun onBindViewHolder(holder: CrustAdapter.MyViewHolder, position: Int) {
+
+        val pos = holder.adapterPosition
+
         with(holder) {
-            with(list[position]) {
+
+            with(list[pos]) {
                 binding.productCrustTxt.text = this.name
 
                 if (isChanged) {
                     binding.radioBtnCrust.isChecked = (this.id.toInt() == defaultSizeData)
                 } else {
-                    binding.radioBtnCrust.isChecked = (position == lastCheckedPosition)
+                    binding.radioBtnCrust.isChecked = (pos == lastCheckedPosition)
                 }
 
                 itemView.setOnClickListener {
@@ -43,7 +45,7 @@ class CrustAdapter(
 
                     listener.crustRecord(this)
 
-                    lastCheckedPosition = position
+                    lastCheckedPosition = pos
                     notifyDataSetChanged()
                 }
             }

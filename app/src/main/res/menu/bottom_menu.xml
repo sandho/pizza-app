@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/homeMenu"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/ic_baseline_home_24"
         />
 
     <item
         android:id="@+id/cartMenu"
-        android:title="Cart"
+        android:title="@string/cart"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         />
 

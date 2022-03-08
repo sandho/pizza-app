@@ -23,14 +23,17 @@ class CrustSizeAdapter(
     }
 
     override fun onBindViewHolder(holder: CrustSizeAdapter.MyViewHolder, position: Int) {
+
+        val pos = holder.adapterPosition
+
         with(holder) {
-            with(list[position]) {
+            with(list[pos]) {
                 binding.productCrustTxt.text = "${this.name} - ${this.price.setPriceWithRupeesSymbol()}"
 
                 if (isChanged) {
                     binding.radioBtnCrust.isChecked = (this.id.toInt() == defaultSizeData)
                 } else {
-                    binding.radioBtnCrust.isChecked = (position == lastCheckedPosition)
+                    binding.radioBtnCrust.isChecked = (pos == lastCheckedPosition)
                 }
 
                 itemView.setOnClickListener {
@@ -42,7 +45,7 @@ class CrustSizeAdapter(
 
                     listener.crustSizeRecord(this)
 
-                    lastCheckedPosition = position
+                    lastCheckedPosition = pos
                     notifyDataSetChanged()
                 }
             }

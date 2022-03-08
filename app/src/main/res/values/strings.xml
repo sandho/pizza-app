@@ -3,7 +3,7 @@
     <string name="product_description">Product Description</string>
     <string name="product_name">Product Name</string>
     <string name="add">add</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="product_crust">Product Crust</string>
     <string name="add_to_cart">Add to Cart</string>
@@ -21,4 +21,8 @@
     <string name="decrement">-</string>
     <string name="delete">Delete</string>
     <string name="product_crust_name">Product Crust Name</string>
+    <string name="cart_empty">Cart Empty</string>
+    <string name="cart">Cart</string>
+    <string name="home">Home</string>
+    <string name="one">1</string>
 </resources>

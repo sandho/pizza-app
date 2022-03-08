@@ -1,24 +1,22 @@
 package com.san.pizzaapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
-import com.google.gson.Gson
 import com.san.pizzaapp.MainActivity
 import com.san.pizzaapp.R
 import com.san.pizzaapp.adapter.CartListAdapter
 import com.san.pizzaapp.databinding.FragmentCartBinding
-import com.san.pizzaapp.model.Product
 import com.san.pizzaapp.model.ProductCart
 import com.san.pizzaapp.room.CartDao
 import com.san.pizzaapp.room.CartDatabase
 import com.san.pizzaapp.utils.CartUpdateListener
-import com.san.pizzaapp.utils.getAssetsJSON
+import com.san.pizzaapp.utils.Utils
 import com.san.pizzaapp.utils.setPriceWithRupeesSymbol
 
 class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListener {
@@ -26,10 +24,6 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
     private lateinit var binding: FragmentCartBinding
 
     companion object {
-        private const val TAG = "CartFragment"
-        lateinit var productAsString: String
-        lateinit var product: Product
-        lateinit var products: ArrayList<Product>
         lateinit var cartDao: CartDao
         lateinit var cartListAdapter: CartListAdapter
         var cartList: List<ProductCart> = ArrayList()
@@ -38,12 +32,12 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCartBinding.inflate(inflater, container, false)
 
         val db = Room.databaseBuilder(
             requireContext(),
-            CartDatabase::class.java, "cart"
+            CartDatabase::class.java, Utils().DB_NAME
         ).allowMainThreadQueries().build()
 
         cartListAdapter = CartListAdapter(this)
@@ -53,6 +47,7 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
         setCartList(cartList)
 
         setGrandTotal()
+        checkCartIsEmpty()
 
         return binding.root
     }
@@ -82,6 +77,8 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
         mainActivity.setBadge() // update count on bottom nav badge
         setGrandTotal()
 
+        checkCartIsEmpty()
+
         Toast.makeText(context, "Cart Removed", Toast.LENGTH_SHORT).show()
     }
 
@@ -96,10 +93,30 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
         cartList = cartDao.listAllCart()
         setCartList(cartList)
 
+        checkCartIsEmpty()
+
         mainActivity.setBadge() // update count on bottom nav badge
-        setGrandTotal()
 
         Toast.makeText(context, "Cart Updated", Toast.LENGTH_SHORT).show()
+    }
+
+    fun checkCartIsEmpty() {
+        if (cartList.count() >= 1) {
+            setGrandTotalCart()
+            setGrandTotal()
+        } else {
+            setEmptyCart()
+        }
+    }
+
+    fun setEmptyCart() {
+        binding.grandTotalTitleTxt.text = getString(R.string.cart_empty)
+        binding.grandTotalTxt.visibility = View.GONE
+    }
+
+    fun setGrandTotalCart() {
+        binding.grandTotalTitleTxt.text = getString(R.string.grand_total)
+        binding.grandTotalTxt.visibility = View.VISIBLE
     }
 
 }

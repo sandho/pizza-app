@@ -4,11 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.san.pizzaapp.databinding.CartListRowBinding
-import com.san.pizzaapp.databinding.ProductCrustItemRowBinding
 import com.san.pizzaapp.model.ProductCart
-import com.san.pizzaapp.ui.CartFragment
 import com.san.pizzaapp.utils.CartUpdateListener
-import com.san.pizzaapp.utils.OnClickListener
 import com.san.pizzaapp.utils.setPriceWithRupeesSymbol
 
 class CartListAdapter(
@@ -26,17 +23,19 @@ class CartListAdapter(
     }
 
     override fun onBindViewHolder(holder: CartListAdapter.MyViewHolder, position: Int) {
-        with(holder) {
-            with(list[position]) {
+        val pos = holder.adapterPosition
 
-                var num: Int = 0
+        with(holder) {
+            with(list[pos]) {
+
+                var num = 0
 
                 binding.productNameTxt.text = this.productName
                 binding.productCrustNameTxt.text = this.productCrustName+" "+this.productCrustSizeName
 
                 binding.deleteCartBtn.setOnClickListener {
-                    listener.deleteCartItem(this.id, adapterPosition)
-                    notifyItemRemoved(adapterPosition)
+                    listener.deleteCartItem(this.id, pos)
+                    notifyItemRemoved(pos)
                 }
 
                 num = this.productCartCount.toInt()
@@ -50,7 +49,7 @@ class CartListAdapter(
                         binding.countTxt.text = (num.toString())
                     }
 
-                    listener.updateCart(this, num.toString(), adapterPosition)
+                    listener.updateCart(this, num.toString(), pos)
                 }
 
                 binding.decrementBtn.setOnClickListener {
@@ -58,10 +57,10 @@ class CartListAdapter(
                         num = num.dec()
                         binding.countTxt.text = (num.toString())
                     } else {
-                        notifyItemRemoved(adapterPosition)
+                        notifyItemRemoved(pos)
                     }
 
-                    listener.updateCart(this, num.toString(), adapterPosition)
+                    listener.updateCart(this, num.toString(), pos)
                 }
             }
         }

@@ -1,14 +1,11 @@
 package com.san.pizzaapp.ui
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.san.pizzaapp.MainActivity
@@ -22,17 +19,17 @@ import com.san.pizzaapp.model.Product
 import com.san.pizzaapp.model.ProductCart
 import com.san.pizzaapp.room.CartDatabase
 import com.san.pizzaapp.utils.OnClickListener
+import com.san.pizzaapp.utils.Utils
 
-class CustomizeProductBottomSheet(var product: Product, var mainActivity: MainActivity) : BottomSheetDialogFragment(), OnClickListener {
+class CustomizeProductBottomSheet(
+    var product: Product,
+    var mainActivity: MainActivity
+) : BottomSheetDialogFragment(), OnClickListener {
 
     private lateinit var binding: FragmentCustomizeProductBottomSheetBinding
     private var cartCrust: Crust? = null
     private var cartCrustSize: CrustSize? = null
     private var cartProduct: Product? = null
-
-    companion object {
-        private const val TAG = "CustomizeProductBottomS"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,23 +51,17 @@ class CustomizeProductBottomSheet(var product: Product, var mainActivity: MainAc
 
         val db = Room.databaseBuilder(
             requireContext(),
-            CartDatabase::class.java, "cart"
+            CartDatabase::class.java, Utils().DB_NAME
         ).allowMainThreadQueries().build()
 
         val cartDao = db.cartDao()
         val cartList: List<ProductCart> = cartDao.listAllCart()
 
         binding.addToCartBtn.setOnClickListener {
-             // Toast.makeText(context, "${cartCrust?.name} - ${cartCrustSize?.name} - ${cartProduct?.name}", Toast.LENGTH_SHORT).show()
 
-            var crustExist = 0
-            var crustSizeExist = 0
-
-            Log.d(TAG, "onCreateView: $cartCrust - $cartCrustSize")
-            
             if (cartCrust != null && cartCrustSize != null) {
-                crustExist = cartDao.selectByCrustID(cartCrust!!.id).size
-                crustSizeExist = cartDao.selectByCrustSizeID(cartCrustSize!!.id).size
+                val crustExist: Int = cartDao.selectByCrustID(cartCrust!!.id).size
+                val crustSizeExist: Int = cartDao.selectByCrustSizeID(cartCrustSize!!.id).size
 
                 when {
                     crustSizeExist >= 1 && crustExist >= 1 -> {
@@ -85,7 +76,7 @@ class CustomizeProductBottomSheet(var product: Product, var mainActivity: MainAc
                                 productCrustSizeID = cartCrustSize!!.id,
                                 productCrustSizeName = cartCrustSize!!.name,
                                 productPrice = cartCrustSize!!.price,
-                                productCartCount = "1"
+                                productCartCount = getString(R.string.one)
                             )
                         )
 
@@ -98,8 +89,6 @@ class CustomizeProductBottomSheet(var product: Product, var mainActivity: MainAc
             } else {
                 Toast.makeText(context, "Choose Crust and Crust Size", Toast.LENGTH_SHORT).show()
             }
-
-
 
         }
 

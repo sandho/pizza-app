@@ -12,6 +12,7 @@ import com.san.pizzaapp.room.CartDao
 import com.san.pizzaapp.room.CartDatabase
 import com.san.pizzaapp.ui.CartFragment
 import com.san.pizzaapp.ui.HomeFragment
+import com.san.pizzaapp.utils.Utils
 import com.san.pizzaapp.viewModel.RoomDbViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val db = Room.databaseBuilder(
             this,
-            CartDatabase::class.java, "cart"
+            CartDatabase::class.java, Utils().DB_NAME
         ).allowMainThreadQueries().build()
 
         cartDao = db.cartDao()
@@ -73,6 +74,5 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
     }
-
 
 }

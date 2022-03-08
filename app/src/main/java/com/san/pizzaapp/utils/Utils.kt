@@ -14,6 +14,7 @@ class Utils {
 
     val BASEURL = "https://android.free.beeceptor.com/"
     val NETWORK_CALL: Boolean = false
+    val DB_NAME = "cart"
 }
 
 fun String.setPriceWithRupeesSymbol(): String {

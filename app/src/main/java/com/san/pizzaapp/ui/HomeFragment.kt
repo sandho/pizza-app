@@ -65,7 +65,7 @@ class HomeFragment(var mainActivity: MainActivity) : Fragment() {
 
         val db = Room.databaseBuilder(
             requireContext(),
-            CartDatabase::class.java, "cart"
+            CartDatabase::class.java, Utils().DB_NAME
         ).allowMainThreadQueries().build()
 
         cartDao = db.cartDao()
