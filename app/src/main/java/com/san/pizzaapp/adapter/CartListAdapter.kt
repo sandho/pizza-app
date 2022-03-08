@@ -35,7 +35,8 @@ class CartListAdapter(
                 binding.productCrustNameTxt.text = this.productCrustName+" "+this.productCrustSizeName
 
                 binding.deleteCartBtn.setOnClickListener {
-                    listener.deleteCartItem(this.id)
+                    listener.deleteCartItem(this.id, adapterPosition)
+                    notifyItemRemoved(adapterPosition)
                 }
 
                 num = this.productCartCount.toInt()
@@ -49,7 +50,7 @@ class CartListAdapter(
                         binding.countTxt.text = (num.toString())
                     }
 
-                    listener.updateCart(this, num.toString(), position)
+                    listener.updateCart(this, num.toString(), adapterPosition)
                 }
 
                 binding.decrementBtn.setOnClickListener {
@@ -57,10 +58,10 @@ class CartListAdapter(
                         num = num.dec()
                         binding.countTxt.text = (num.toString())
                     } else {
-                        notifyItemRemoved(position)
+                        notifyItemRemoved(adapterPosition)
                     }
 
-                    listener.updateCart(this, num.toString(), position)
+                    listener.updateCart(this, num.toString(), adapterPosition)
                 }
             }
         }

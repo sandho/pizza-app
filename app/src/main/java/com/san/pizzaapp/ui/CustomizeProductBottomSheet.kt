@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.san.pizzaapp.MainActivity
 import com.san.pizzaapp.R
 import com.san.pizzaapp.adapter.CrustAdapter
 import com.san.pizzaapp.adapter.CrustSizeAdapter
@@ -22,7 +23,7 @@ import com.san.pizzaapp.model.ProductCart
 import com.san.pizzaapp.room.CartDatabase
 import com.san.pizzaapp.utils.OnClickListener
 
-class CustomizeProductBottomSheet(var product: Product) : BottomSheetDialogFragment(), OnClickListener {
+class CustomizeProductBottomSheet(var product: Product, var mainActivity: MainActivity) : BottomSheetDialogFragment(), OnClickListener {
 
     private lateinit var binding: FragmentCustomizeProductBottomSheetBinding
     private var cartCrust: Crust? = null
@@ -45,6 +46,8 @@ class CustomizeProductBottomSheet(var product: Product) : BottomSheetDialogFragm
         cartProduct = product
 
         crustAdapter.setCrustList(crusts)
+        crustAdapter.setChanged(true)
+        crustAdapter.setDefaultCrust(product.defaultCrust)
 
         binding.curstRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.curstRecyclerView.adapter = crustAdapter
@@ -62,29 +65,41 @@ class CustomizeProductBottomSheet(var product: Product) : BottomSheetDialogFragm
 
             var crustExist = 0
             var crustSizeExist = 0
-            if (cartList.isNotEmpty()) {
+
+            Log.d(TAG, "onCreateView: $cartCrust - $cartCrustSize")
+            
+            if (cartCrust != null && cartCrustSize != null) {
                 crustExist = cartDao.selectByCrustID(cartCrust!!.id).size
                 crustSizeExist = cartDao.selectByCrustSizeID(cartCrustSize!!.id).size
+
+                when {
+                    crustSizeExist >= 1 && crustExist >= 1 -> {
+                        Toast.makeText(context, "crust exists, goto cart to update cart", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        cartDao.addToCart(
+                            ProductCart(
+                                productName = product.name,
+                                productCrustID = cartCrust!!.id,
+                                productCrustName = cartCrust!!.name,
+                                productCrustSizeID = cartCrustSize!!.id,
+                                productCrustSizeName = cartCrustSize!!.name,
+                                productPrice = cartCrustSize!!.price,
+                                productCartCount = "1"
+                            )
+                        )
+
+                        mainActivity.setBadge()
+
+                        Toast.makeText(context, "Pizza added to Cart", Toast.LENGTH_SHORT).show()
+                        dismiss()
+                    }
+                }
+            } else {
+                Toast.makeText(context, "Choose Crust and Crust Size", Toast.LENGTH_SHORT).show()
             }
 
-            when {
-                crustSizeExist >= 1 && crustExist >= 1 -> {
-                    Toast.makeText(context, "crust exists", Toast.LENGTH_SHORT).show()
-                }
-                else -> {
-                    cartDao.addToCart(
-                        ProductCart(
-                            productName = product.name,
-                            productCrustID = cartCrust!!.id,
-                            productCrustName = cartCrust!!.name,
-                            productCrustSizeID = cartCrustSize!!.id,
-                            productCrustSizeName = cartCrustSize!!.name,
-                            productPrice = cartCrustSize!!.price,
-                            productCartCount = "1"
-                        )
-                    )
-                }
-            }
+
 
         }
 
@@ -92,8 +107,6 @@ class CustomizeProductBottomSheet(var product: Product) : BottomSheetDialogFragm
     }
 
     override fun crustRecord(crust: Crust) {
-        binding.productCrustTitleTxt.text = crust.name
-
         cartCrust = crust
         cartCrustSize = crust.sizes.filter {
             it.id.toInt() == crust.defaultSize
@@ -104,8 +117,6 @@ class CustomizeProductBottomSheet(var product: Product) : BottomSheetDialogFragm
 
     override fun crustSizeRecord(crustSize: CrustSize) {
         cartCrustSize = crustSize
-
-        binding.productCrustSizeTitleTxt.text = crustSize.name
     }
 
     private fun setCrustSizes(sizes: ArrayList<CrustSize>, crust: Crust) {

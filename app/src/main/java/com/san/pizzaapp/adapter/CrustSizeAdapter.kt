@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.san.pizzaapp.databinding.ProductCrustItemRowBinding
 import com.san.pizzaapp.model.CrustSize
 import com.san.pizzaapp.utils.OnClickListener
+import com.san.pizzaapp.utils.setPriceWithRupeesSymbol
 
 class CrustSizeAdapter(
     var listener: OnClickListener
@@ -24,7 +25,7 @@ class CrustSizeAdapter(
     override fun onBindViewHolder(holder: CrustSizeAdapter.MyViewHolder, position: Int) {
         with(holder) {
             with(list[position]) {
-                binding.productCrustTxt.text = "${this.name} ${this.price}"
+                binding.productCrustTxt.text = "${this.name} - ${this.price.setPriceWithRupeesSymbol()}"
 
                 if (isChanged) {
                     binding.radioBtnCrust.isChecked = (this.id.toInt() == defaultSizeData)
@@ -32,7 +33,7 @@ class CrustSizeAdapter(
                     binding.radioBtnCrust.isChecked = (position == lastCheckedPosition)
                 }
 
-                binding.productCrustTxt.setOnClickListener {
+                itemView.setOnClickListener {
                     isChanged = false
 
                     if (lastCheckedPosition >= 0) {

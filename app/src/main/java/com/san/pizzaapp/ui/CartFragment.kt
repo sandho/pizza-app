@@ -52,13 +52,17 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
         cartList = cartDao.listAllCart()
         setCartList(cartList)
 
+        setGrandTotal()
+
+        return binding.root
+    }
+
+    private fun setGrandTotal() {
         val subTotal = cartList.sumOf {
             it.productPrice.toDouble() * it.productCartCount.toDouble()
         }
 
         binding.grandTotalTxt.text = subTotal.toString().setPriceWithRupeesSymbol()
-
-        return binding.root
     }
 
     private fun setCartList(cartList: List<ProductCart>) {
@@ -68,14 +72,20 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
         binding.cartListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun deleteCartItem(cartItemID: Int) {
-        Toast.makeText(context, "delete - $cartItemID", Toast.LENGTH_SHORT).show()
+    override fun deleteCartItem(cartItemID: Int, position: Int) {
+        cartList.toMutableList().removeAt(position)
         cartDao.cartItemDelete(cartItemID)
+
+        cartList = cartDao.listAllCart()
+        setCartList(cartList)
+
+        mainActivity.setBadge() // update count on bottom nav badge
+        setGrandTotal()
+
+        Toast.makeText(context, "Cart Removed", Toast.LENGTH_SHORT).show()
     }
 
     override fun updateCart(productCart: ProductCart, count: String, position: Int) {
-        Toast.makeText(context, "${productCart.id} - $count", Toast.LENGTH_SHORT).show()
-
         if (count.toInt() >= 1) {
             cartDao.updateCartCount(count.toInt(), productCart.id)
         } else {
@@ -86,7 +96,10 @@ class CartFragment(var mainActivity: MainActivity) : Fragment(), CartUpdateListe
         cartList = cartDao.listAllCart()
         setCartList(cartList)
 
-        mainActivity.setBadge()
+        mainActivity.setBadge() // update count on bottom nav badge
+        setGrandTotal()
+
+        Toast.makeText(context, "Cart Updated", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -15,6 +15,8 @@ class CrustAdapter(
 
     private lateinit var list: ArrayList<Crust>
     private var lastCheckedPosition = -1
+    private var defaultSizeData = 0
+    private var isChanged: Boolean = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrustAdapter.MyViewHolder {
         val binding = ProductCrustItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,9 +28,15 @@ class CrustAdapter(
             with(list[position]) {
                 binding.productCrustTxt.text = this.name
 
-                binding.radioBtnCrust.isChecked = (position == lastCheckedPosition)
+                if (isChanged) {
+                    binding.radioBtnCrust.isChecked = (this.id.toInt() == defaultSizeData)
+                } else {
+                    binding.radioBtnCrust.isChecked = (position == lastCheckedPosition)
+                }
 
-                binding.productCrustTxt.setOnClickListener {
+                itemView.setOnClickListener {
+                    isChanged = false
+
                     if (lastCheckedPosition >= 0) {
                         notifyDataSetChanged()
                     }
@@ -50,8 +58,12 @@ class CrustAdapter(
         list = crusts
     }
 
-    fun setListener() {
+    fun setChanged(isChangedData: Boolean) {
+        isChanged = isChangedData
+    }
 
+    fun setDefaultCrust(defaultCrust: Int) {
+        defaultSizeData = defaultCrust
     }
 
     inner class MyViewHolder(var binding: ProductCrustItemRowBinding) :
